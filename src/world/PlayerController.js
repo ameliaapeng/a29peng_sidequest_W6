@@ -77,6 +77,28 @@ export class PlayerController {
     if (p.knockTimer === 0 && !p.pendingDeath && grounded && wantJump) {
       p.jump();
       this.events?.emit("player:jumped", {});
+
+      try {
+        const osc = new p5.Oscillator("square");
+        osc.start();
+        osc.freq(440);
+        osc.amp(0.25, 0.01);
+
+        setTimeout(() => {
+          osc.freq(660);
+          osc.amp(0.12, 0.03);
+        }, 40);
+
+        setTimeout(() => {
+          osc.amp(0, 0.08);
+        }, 90);
+
+        setTimeout(() => {
+          osc.stop();
+        }, 220);
+      } catch (e) {
+        console.log("jump sound failed", e);
+      }
     }
 
     // -----------------------
